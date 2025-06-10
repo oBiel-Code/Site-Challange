@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogos Amistosos - FutFem Social</title>
+    <link rel="stylesheet" href="CSS/styles.css">
+    <link rel="stylesheet" href="CSS/jogos.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-futbol"></i>
+                <span>FutFem Social</span>
+            </div>
+            <nav class="nav">
+                <a href="#" class="nav-link" data-page="home">
+                    <i class="fas fa-home"></i>
+                    <span>Início</span>
+                </a>
+                <a href="#" class="nav-link" data-page="explore">
+                    <i class="fas fa-search"></i>
+                    <span>Explorar</span>
+                </a>
+                <a href="#" class="nav-link" data-page="notifications" id="notificationsNavLink">
+                    <div class="nav-icon-container">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge" id="notificationBadge">7</span>
+                    </div>
+                    <span>Notificações</span>
+                </a>
+                <a href="#" class="nav-link" data-page="messages" id="messagesNavLink">
+                    <div class="nav-icon-container">
+                        <i class="fas fa-envelope"></i>
+                        <span class="message-badge" id="messageBadge">3</span>
+                    </div>
+                    <span>Mensagens</span>
+                </a>
+                <a href="#" class="nav-link active" data-page="games">
+                    <i class="fas fa-futbol"></i>
+                    <span>Jogos</span>
+                </a>
+                <a href="#" class="nav-link" data-page="profile" id="profileNavLink">
+                    <i class="fas fa-user"></i>
+                    <span id="profileNavText">Perfil</span>
+                    <!-- Profile Dropdown -->
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <div class="dropdown-content">
+                            <div class="user-info" id="userInfo">
+                                <img src="/placeholder.svg?height=40&width=40" alt="Avatar" class="dropdown-avatar">
+                                <div class="user-details">
+                                    <span class="user-name" id="dropdownUserName">Visitante</span>
+                                    <span class="user-handle" id="dropdownUserHandle">@visitante</span>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <!-- Meu Perfil - apenas quando logado -->
+                            <a href="#" class="dropdown-item hidden" id="profileMenuItem">
+                                <i class="fas fa-user"></i>
+                                <span>Meu Perfil</span>
+                            </a>
+                            <!-- Login - apenas quando deslogado -->
+                            <a href="#" class="dropdown-item" id="loginMenuItem">
+                                <i class="fas fa-sign-in-alt"></i>
+                                <span>Login</span>
+                            </a>
+                            <!-- Configurações - apenas quando logado -->
+                            <a href="#" class="dropdown-item hidden" id="settingsMenuItem">
+                                <i class="fas fa-cog"></i>
+                                <span>Configurações</span>
+                            </a>
+                            <!-- Divider antes do Sair - apenas quando logado -->
+                            <div class="dropdown-divider hidden" id="logoutDivider"></div>
+                            <!-- Sair - apenas quando logado -->
+                            <a href="#" class="dropdown-item logout-item hidden" id="logoutMenuItem">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Sair</span>
+                            </a>
+                        </div>
+                    </div>
+                </a>
+            </nav>
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="games-main">
+        <div class="games-container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="header-content-games">
+                    <h1>Jogos Amistosos</h1>
+                    <p>Encontre e participe de jogos organizados pela comunidade</p>
+                </div>
+                <button class="btn-primary create-game-btn" id="createGameBtn">
+                    <i class="fas fa-plus"></i>
+                    Criar Jogo
+                </button>
+            </div>
+
+            <!-- Filters -->
+            <div class="games-filters">
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="all">Todos</button>
+                    <button class="filter-tab" data-filter="today">Hoje</button>
+                    <button class="filter-tab" data-filter="week">Esta Semana</button>
+                    <button class="filter-tab" data-filter="my-games">Meus Jogos</button>
+                </div>
+                <div class="filter-options">
+                    <select class="filter-select" id="locationFilter">
+                        <option value="">Todas as Cidades</option>
+                        <option value="sao-paulo">São Paulo</option>
+                        <option value="rio-janeiro">Rio de Janeiro</option>
+                        <option value="belo-horizonte">Belo Horizonte</option>
+                        <option value="brasilia">Brasília</option>
+                        <option value="salvador">Salvador</option>
+                    </select>
+                    <select class="filter-select" id="levelFilter">
+                        <option value="">Todos os Níveis</option>
+                        <option value="iniciante">Iniciante</option>
+                        <option value="intermediario">Intermediário</option>
+                        <option value="avancado">Avançado</option>
+                        <option value="profissional">Profissional</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Games Grid -->
+            <div class="games-grid" id="gamesGrid">
+                <!-- Game Card 1 -->
+                <div class="game-card" data-game-id="1">
+                    <div class="game-card-header">
+                        <div>
+                            <div class="game-title">Pelada no Parque Ibirapuera</div>
+                            <div class="game-organizer">
+                                <img src="/placeholder.svg?height=40&width=40" alt="Ana Silva" class="organizer-avatar">
+                                <span>por Ana Silva</span>
+                            </div>
+                        </div>
+                        <div class="game-status open">Aberto</div>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-info-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>Hoje às 16:00</span>
+                        </div>
+                        <div class="game-info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Campo do Parque Ibirapuera, São Paulo</span>
+                        </div>
+                        <div class="game-info-item">
+                            <i class="fas fa-users"></i>
+                            <span>18/22 jogadoras</span>
+                        </div>
+                        <div class="game-info-item">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>R$ 10,00</span>
+                        </div>
+                    </div>
+                    <div class="game-description">
+                        Jogo amistoso para se divertir e fazer novos contatos. Tragam água e protetor solar!
+                    </div>
+                    <div class="game-participants">
+                        <div class="participants-avatars">
+                            <img src="/placeholder.svg?height=24&width=24" alt="Ana Silva" class="participant-avatar">
+                            <img src="/placeholder.svg?height=24&width=24" alt="Maria Santos" class="participant-avatar">
+                            <img src="/placeholder.svg?height=24&width=24" alt="Carla Lima" class="participant-avatar">
+                            <span class="participants-count">+15</span>
+                        </div>
+                        <div class="game-level intermediario">Intermediário</div>
+                    </div>
+                    <div class="game-actions">
+                        <button class="join-game-btn primary" data-action="join">
+                            <i class="fas fa-plus"></i>
+                            Participar
+                        </button>
+                        <button class="share-game-btn" data-action="share">
+                            <i class="fas fa-share"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Game Card 2 -->
+                <div class="game-card" data-game-id="2">
+                    <div class="game-card-header">
+                        <div>
+                            <div class="game-title">Treino Técnico - Copacabana</div>
+                            <div class="game-organizer">
+                                <img src="/placeholder.svg?height=40&width=40" alt="Juliana Costa" class="organizer-avatar">
+                                <span>por Juliana Costa</span>
+                            </div>
+                        </div>
+                        <div class="game-status open">Aberto</div>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-info-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>Amanhã às 18:30</span>
+                        </div>
+                        <div class="game-info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Arena Copacabana, Rio de Janeiro</span>
+                        </div>
+                        <div class="game-info-item">
+                            <i class="fas fa-users"></i>
+                            <span>15/20 jogadoras</span>
+                        </div>
+                        <div class="game-info-item">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>R$ 25,00</span>
+                        </div>
+                    </div>
+                    <div class="game-description">
+                        Treino focado em técnica individual e jogadas ensaiadas. Ideal para quem quer evoluir!
+                    </div>
+                    <div class="game-participants">
+                        <div class="participants-avatars">
+                            <img src="/placeholder.svg?height=24&width=24" alt="Juliana Costa" class="participant-avatar">
+                            <img src="/placeholder.svg?height=24&width=24" alt="Beatriz Alves" class="participant-avatar">
+                            <span class="participants-count">+13</span>
+                        </div>
+                        <div class="game-level avancado">Avançado</div>
+                    </div>
+                    <div class="game-actions">
+                        <button class="join-game-btn primary" data-action="join">
+                            <i class="fas fa-plus"></i>
+                            Participar
+                        </button>
+                        <button class="share-game-btn" data-action="share">
+                            <i class="fas fa-share"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Game Card 3 -->
+                <div class="game-card" data-game-id="3">
+                    <div class="game-card-header">
+                        <div>
+                            <div class="game-title">Jogo Beneficente - Instituto Ayrton Senna</div>
+                            <div class="game-organizer">
+                                <img src="/placeholder.svg?height=40&width=40" alt="Marta Vieira" class="organizer-avatar">
+                                <span>por Marta Vieira</span>
+                            </div>
+                        </div>
+                        <div class="game-status full">Lotado</div>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-info-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>20/01 às 14:00</span>
+                        </div>
+                        <div class="game-info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Centro de Treinamento, São Paulo</span>
+                        </div>
+                        <div class="game-info-item">
+                            <i class="fas fa-users"></i>
+                            <span>22/22 jogadoras</span>
+                        </div>
+                        <div class="game-info-item">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>R$ 50,00</span>
+                        </div>
+                    </div>
+                    <div class="game-description">
+                        Jogo beneficente com a participação de ex-jogadoras da seleção. Renda revertida para o instituto.
+                    </div>
+                    <div class="game-participants">
+                        <div class="participants-avatars">
+                            <img src="/placeholder.svg?height=24&width=24" alt="Marta Vieira" class="participant-avatar">
+                            <img src="/placeholder.svg?height=24&width=24" alt="Formiga" class="participant-avatar">
+                            <span class="participants-count">+20</span>
+                        </div>
+                        <div class="game-level profissional">Profissional</div>
+                    </div>
+                    <div class="game-actions">
+                        <button class="join-game-btn secondary" data-action="waitlist">
+                            <i class="fas fa-clock"></i>
+                            Lista de Espera
+                        </button>
+                        <button class="share-game-btn" data-action="share">
+                            <i class="fas fa-share"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Game Card 4 -->
+                <div class="game-card" data-game-id="4">
+                    <div class="game-card-header">
+                        <div>
+                            <div class="game-title">Iniciantes - Primeira Pelada</div>
+                            <div class="game-organizer">
+                                <img src="/placeholder.svg?height=40&width=40" alt="Camila Rodrigues" class="organizer-avatar">
+                                <span>por Camila Rodrigues</span>
+                            </div>
+                        </div>
+                        <div class="game-status open">Aberto</div>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-info-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>17/01 às 09:00</span>
+                        </div>
+                        <div class="game-info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Quadra da Escola Municipal, Belo Horizonte</span>
+                        </div>
+                        <div class="game-info-item">
+                            <i class="fas fa-users"></i>
+                            <span>12/16 jogadoras</span>
+                        </div>
+                        <div class="game-info-item">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>Gratuito</span>
+                        </div>
+                    </div>
+                    <div class="game-description">
+                        Para quem está começando no futebol feminino. Ambiente acolhedor e sem pressão!
+                    </div>
+                    <div class="game-participants">
+                        <div class="participants-avatars">
+                            <img src="/placeholder.svg?height=24&width=24" alt="Camila Rodrigues" class="participant-avatar">
+                            <span class="participants-count">+11</span>
+                        </div>
+                        <div class="game-level iniciante">Iniciante</div>
+                    </div>
+                    <div class="game-actions">
+                        <button class="join-game-btn primary" data-action="join">
+                            <i class="fas fa-plus"></i>
+                            Participar
+                        </button>
+                        <button class="share-game-btn" data-action="share">
+                            <i class="fas fa-share"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Game Card 5 -->
+                <div class="game-card" data-game-id="5">
+                    <div class="game-card-header">
+                        <div>
+                            <div class="game-title">Torneio Relâmpago - 3x3</div>
+                            <div class="game-organizer">
+                                <img src="/placeholder.svg?height=40&width=40" alt="Gabi Portilho" class="organizer-avatar">
+                                <span>por Gabi Portilho</span>
+                            </div>
+                        </div>
+                        <div class="game-status open">Aberto</div>
+                    </div>
+                    <div class="game-info">
+                        <div class="game-info-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>18/01 às 19:00</span>
+                        </div>
+                        <div class="game-info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Arena Society, Brasília</span>
+                        </div>
+                        <div class="game-info-item">
+                            <i class="fas fa-users"></i>
+                            <span>9/12 jogadoras</span>
+                        </div>
+                        <div class="game-info-item">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>R$ 15,00</span>
+                        </div>
+                    </div>
+                    <div class="game-description">
+                        Torneio rápido de 3x3. Várias partidas curtas, muita diversão garantida!
+                    </div>
+                    <div class="game-participants">
+                        <div class="participants-avatars">
+                            <img src="/placeholder.svg?height=24&width=24" alt="Gabi Portilho" class="participant-avatar">
+                            <span class="participants-count">+8</span>
+                        </div>
+                        <div class="game-level intermediario">Intermediário</div>
+                    </div>
+                    <div class="game-actions">
+                        <button class="join-game-btn primary" data-action="join">
+                            <i class="fas fa-plus"></i>
+                            Participar
+                        </button>
+                        <button class="share-game-btn" data-action="share">
+                            <i class="fas fa-share"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- No Games Message (hidden by default) -->
+                <div class="no-games-message hidden">
+                    <i class="fas fa-search"></i>
+                    <p>Nenhum jogo encontrado com os filtros selecionados.</p>
+                </div>
+            </div>
+
+            <!-- Load More -->
+            <div class="load-more-container">
+                <button class="btn-secondary load-more-btn" id="loadMoreBtn">
+                    Carregar Mais Jogos
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Create Game Modal -->
+    <div class="profile-auth-modal" id="createGameModal">
+        <div class="auth-modal-content create-game-modal">
+            <div class="auth-modal-header">
+                <h2>Criar Novo Jogo</h2>
+                <button class="auth-modal-close" id="closeCreateGameModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="auth-content">
+                <form class="create-game-form" id="createGameForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Título do Jogo</label>
+                            <input type="text" placeholder="Ex: Pelada no Parque Ibirapuera" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Data</label>
+                            <input type="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Horário</label>
+                            <input type="time" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Local</label>
+                            <input type="text" placeholder="Nome do local ou endereço" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Cidade</label>
+                            <select required>
+                                <option value="">Selecione a cidade</option>
+                                <option value="sao-paulo">São Paulo</option>
+                                <option value="rio-janeiro">Rio de Janeiro</option>
+                                <option value="belo-horizonte">Belo Horizonte</option>
+                                <option value="brasilia">Brasília</option>
+                                <option value="salvador">Salvador</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nível</label>
+                            <select required>
+                                <option value="">Selecione o nível</option>
+                                <option value="iniciante">Iniciante</option>
+                                <option value="intermediario">Intermediário</option>
+                                <option value="avancado">Avançado</option>
+                                <option value="profissional">Profissional</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Máximo de Jogadoras</label>
+                            <input type="number" min="10" max="30" value="22" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Descrição</label>
+                        <textarea placeholder="Descreva o jogo, regras especiais, o que levar..." rows="4"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Valor (opcional)</label>
+                        <input type="text" placeholder="Ex: R$ 10,00 por pessoa">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancelCreateGame">Cancelar</button>
+                        <button type="submit" class="btn-primary">Criar Jogo</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications Page -->
+    <div class="notifications-page" id="notificationsPage">
+        <div class="notifications-container">
+            <div class="notifications-header">
+                <button class="back-btn" id="notificationsBackBtn">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>Notificações</h2>
+                <button class="mark-all-read-btn" id="markAllReadBtn">
+                    <i class="fas fa-check-double"></i>
+                </button>
+            </div>
+            
+            <div class="notifications-tabs">
+                <button class="notification-tab active" data-tab="all">Todas</button>
+                <button class="notification-tab" data-tab="mentions">Menções</button>
+                <button class="notification-tab" data-tab="likes">Curtidas</button>
+                <button class="notification-tab" data-tab="follows">Seguidores</button>
+            </div>
+
+            <div class="notifications-content">
+                <div class="notification-group" data-group="all">
+                    <div class="notification-item unread" data-type="like">
+                        <img src="/placeholder.svg?height=40&width=40" alt="Marta" class="notification-avatar">
+                        <div class="notification-content">
+                            <div class="notification-text">
+                                <strong>Marta Vieira</strong> curtiu seu post sobre o jogo de ontem
+                            </div>
+                            <div class="notification-time">2 minutos atrás</div>
+                        </div>
+                        <div class="notification-preview">
+                            <img src="/placeholder.svg?height=40&width=40" alt="Post preview" class="post-preview">
+                        </div>
+                        <div class="notification-dot"></div>
+                    </div>
+
+                    <div class="notification-item unread" data-type="comment">
+                        <img src="/placeholder.svg?height=40&width=40" alt="Formiga" class="notification-avatar">
+                        <div class="notification-content">
+                            <div class="notification-text">
+                                <strong>Formiga</strong> comentou: "Que jogada incrível! 🔥"
+                            </div>
+                            <div class="notification-time">5 minutos atrás</div>
+                        </div>
+                        <div class="notification-preview">
+                            <img src="/placeholder.svg?height=40&width=40" alt="Post preview" class="post-preview">
+                        </div>
+                        <div class="notification-dot"></div>
+                    </div>
+
+                    <div class="notification-item unread" data-type="follow">
+                        <img src="/placeholder.svg?height=40&width=40" alt="Passaabola" class="notification-avatar">
+                        <div class="notification-content">
+                            <div class="notification-text">
+                                <strong>Passaabola</strong> começou a te seguir
+                            </div>
+                            <div class="notification-time">10 minutos atrás</div>
+                        </div>
+                        <button class="follow-back-btn">Seguir de volta</button>
+                        <div class="notification-dot"></div>
+                    </div>
+
+                    <div class="notification-item unread" data-type="mention">
+                        <img src="/placeholder.svg?height=40&width=40" alt="Gabi" class="notification-avatar">
+                        <div class="notification-content">
+                            <div class="notification-text">
+                                <strong>Gabi Portilho</strong> mencionou você em um post
+                            </div>
+                            <div class="notification-time">15 minutos atrás</div>
+                        </div>
+                        <div class="notification-preview">
+                            <img src="/placeholder.svg?height=40&width=40" alt="Post preview" class="post-preview">
+                        </div>
+                        <div class="notification-dot"></div>
+                    </div>
+
+                    <div class="notification-item unread" data-type="like">
+                        <img src="/placeholder.svg?height=40&width=40" alt="Ana" class="notification-avatar">
+                        <div class="notification-content">
+                            <div class="notification-text">
+                                <strong>Ana Silva</strong> e <strong>12 outras pessoas</strong> curtiram seu post
+                            </div>
+                            <div class="notification-time">20 minutos atrás</div>
+                        </div>
+                        <div class="notification-preview">
+                            <img src="/placeholder.svg?height=40&width=40" alt="Post preview" class="post-preview">
+                        </div>
+                        <div class="notification-dot"></div>
+                    </div>
+
+                    <div class="notification-item" data-type="like">
+                        <img src="/placeholder.svg?height=40&width=40" alt="Ary" class="notification-avatar">
+                        <div class="notification-content">
+                            <div class="notification-text">
+                                <strong>Ary Borges</strong> curtiu seu comentário
+                            </div>
+                            <div class="notification-time">1 hora atrás</div>
+                        </div>
+                        <div class="notification-preview">
+                            <img src="/placeholder.svg?height=40&width=40" alt="Post preview" class="post-preview">
+                        </div>
+                    </div>
+
+                    <div class="notification-item" data-type="follow">
+                        <img src="/placeholder.svg?height=40&width=40" alt="Duda" class="notification-avatar">
+                        <div class="notification-content">
+                            <div class="notification-text">
+                                <strong>Duda Santos</strong> começou a te seguir
+                            </div>
+                            <div class="notification-time">2 horas atrás</div>
+                        </div>
+                        <button class="follow-back-btn">Seguir de volta</button>
+                    </div>
+
+                    <div class="notification-item" data-type="comment">
+                        <img src="/placeholder.svg?height=40&width=40" alt="Corinthians" class="notification-avatar">
+                        <div class="notification-content">
+                            <div class="notification-text">
+                                <strong>Corinthians Feminino</strong> respondeu seu comentário
+                            </div>
+                            <div class="notification-time">3 horas atrás</div>
+                        </div>
+                        <div class="notification-preview">
+                            <img src="/placeholder.svg?height=40&width=40" alt="Post preview" class="post-preview">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="searchModal">
+        <div class="search-container">
+            <div class="search-header">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar pessoas, hashtags, posts..." class="search-input" id="searchInput">
+                <button class="search-close" id="searchClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="search-content">
+                <div class="search-suggestions">
+                    <h4>Sugestões para você</h4>
+                    <div class="search-item">
+                        <img src="/placeholder.svg?height=32&width=32" alt="Marta" class="search-avatar">
+                        <div class="search-info">
+                            <span class="search-name">Marta Vieira</span>
+                            <span class="search-handle">@marta10oficial</span>
+                        </div>
+                        <span class="verified">✓</span>
+                    </div>
+                    <div class="search-item">
+                        <img src="/placeholder.svg?height=32&width=32" alt="Formiga" class="search-avatar">
+                        <div class="search-info">
+                            <span class="search-name">Formiga</span>
+                            <span class="search-handle">@formiga_oficial</span>
+                        </div>
+                        <span class="verified">✓</span>
+                    </div>
+                    <div class="search-item">
+                        <div class="hashtag-icon">#</div>
+                        <div class="search-info">
+                            <span class="search-name">#BrasileiroFeminino</span>
+                            <span class="search-handle">8.2K posts</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="search-results" id="searchResults">
+                    <!-- Resultados da busca aparecerão aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Messages Modal -->
+    <div class="messages-modal" id="messagesModal">
+        <div class="messages-container">
+            <div class="messages-sidebar">
+                <div class="messages-header">
+                    <h3>Mensagens</h3>
+                    <button class="new-message-btn">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+                <div class="messages-search">
+                    <input type="text" placeholder="Buscar conversas..." class="messages-search-input">
+                </div>
+                <div class="conversations-list">
+                    <div class="conversation-item active">
+                        <img src="/placeholder.svg?height=40&width=40" alt="Marta" class="conversation-avatar">
+                        <div class="conversation-info">
+                            <div class="conversation-name">Marta Vieira</div>
+                            <div class="conversation-preview">Obrigada pelo apoio! ⚽️</div>
+                            <div class="conversation-time">2 min</div>
+                        </div>
+                        <div class="unread-badge">2</div>
+                    </div>
+                    <div class="conversation-item">
+                        <img src="/placeholder.svg?height=40&width=40" alt="Formiga" class="conversation-avatar">
+                        <div class="conversation-info">
+                            <div class="conversation-name">Formiga</div>
+                            <div class="conversation-preview">Vamos marcar aquele treino?</div>
+                            <div class="conversation-time">1h</div>
+                        </div>
+                    </div>
+                    <div class="conversation-item">
+                        <img src="/placeholder.svg?height=40&width=40" alt="Passaabola" class="conversation-avatar">
+                        <div class="conversation-info">
+                            <div class="conversation-name">Passaabola</div>
+                            <div class="conversation-preview">Nova matéria sobre o Brasileirão</div>
+                            <div class="conversation-time">3h</div>
+                        </div>
+                        <div class="unread-badge">1</div>
+                    </div>
+                    <div class="conversation-item">
+                        <img src="/placeholder.svg?height=40&width=40" alt="Gabi" class="conversation-avatar">
+                        <div class="conversation-info">
+                            <div class="conversation-name">Gabi Portilho</div>
+                            <div class="conversation-preview">Que jogo incrível hoje!</div>
+                            <div class="conversation-time">5h</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="messages-chat">
+                <div class="chat-header">
+                    <img src="/placeholder.svg?height=32&width=32" alt="Marta" class="chat-avatar">
+                    <div class="chat-info">
+                        <div class="chat-name">Marta Vieira</div>
+                        <div class="chat-status">Online</div>
+                    </div>
+                    <button class="chat-close" id="messagesClose">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message received">
+                        <img src="/placeholder.svg?height=24&width=24" alt="Marta" class="message-avatar">
+                        <div class="message-content">
+                            <p>Oi! Vi seu post sobre o jogo de ontem</p>
+                            <span class="message-time">14:30</span>
+                        </div>
+                    </div>
+                    <div class="message sent">
+                        <div class="message-content">
+                            <p>Oi Marta! Que jogo incrível mesmo! 🔥</p>
+                            <span class="message-time">14:32</span>
+                        </div>
+                    </div>
+                    <div class="message received">
+                        <img src="/placeholder.svg?height=24&width=24" alt="Marta" class="message-avatar">
+                        <div class="message-content">
+                            <p>Obrigada pelo apoio! ⚽️</p>
+                            <span class="message-time">14:35</span>
+                        </div>
+                    </div>
+                    <div class="message received">
+                        <img src="/placeholder.svg?height=24&width=24" alt="Marta" class="message-avatar">
+                        <div class="message-content">
+                            <p>O futebol feminino está crescendo muito!</p>
+                            <span class="message-time">14:35</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" placeholder="Digite uma mensagem..." class="chat-input" id="chatInput">
+                    <button class="send-message-btn" id="sendMessageBtn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Auth Modal - APENAS LOGIN -->
+    <div class="profile-auth-modal" id="profileAuthModal">
+        <div class="auth-modal-content">
+            <div class="auth-modal-header">
+                <h2>Faça Login para Continuar</h2>
+                <button class="auth-modal-close" id="authModalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="auth-content">
+                <form class="auth-form" id="loginForm">
+                    <div class="form-group">
+                        <label>Email ou nome de usuário</label>
+                        <input type="text" placeholder="Digite seu email ou @usuario" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Senha</label>
+                        <input type="password" placeholder="Digite sua senha" required>
+                    </div>
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox">
+                                <span class="checkmark"></span>
+                                Lembrar de mim
+                            </label>
+                            <a href="#" class="forgot-password">Esqueceu a senha?</a>
+                        </div>
+                        <button type="submit" class="btn-primary">Entrar</button>
+                        <div class="social-login">
+                            <p>Ou entre com:</p>
+                            <div class="social-buttons">
+                                <button type="button" class="social-btn google">
+                                    <i class="fab fa-google"></i>
+                                    Google
+                                </button>
+                                <button type="button" class="social-btn facebook">
+                                    <i class="fab fa-facebook-f"></i>
+                                    Facebook
+                                </button>
+                            </div>
+                        </div>
+                        <div class="register-link">
+                            <p>Não tem uma conta? <a href="cadastro.html">Cadastre-se aqui</a></p>
+                        </div>
+                    </form>
+                </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <i class="fas fa-futbol fa-spin"></i>
+            <p>Carregando...</p>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <script src="JS/scri.js"></script>
+    <script src="JS/jogos.js"></script>
+</body>
+</html>
