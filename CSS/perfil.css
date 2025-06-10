@@ -1,0 +1,191 @@
+         body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+        .cabecalho {
+            background-color: #f5f9ff;
+            color: #ffffff;
+            padding: 10px 0;
+        }
+        .cabecalho-container {
+            width: 80%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #3a86ff;
+            font-size: 15px;
+        }
+
+        .foto-atleta {
+            width: 250px;
+            max-width: 520px;
+            border-radius: 10px;
+            display: block;
+            margin: 0 auto;
+        }
+      
+       
+        .navegacao ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .navegacao li {
+            display: inline;
+            margin-right: 20px;
+        }
+        .navegacao a {
+            color: #606060;
+            text-decoration: none;
+        }
+
+        .navegacao a:hover {
+            text-decoration: underline;
+            color: red;
+        }
+
+        .informacao-container, .historico-container, .campeonatos-container, .midias-container, .redes-sociais-container {
+            width: 60%;
+            margin: auto;
+            background-color: #f5f9ff;
+            color: #606060;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+
+        .informacao-container h2, .historico-container h2, .campeonatos-container h2, .midias-container h2 {
+            color: #0a0a0a;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .informacao-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+
+        }
+        .lista-historico, .lista-campeonatos, .lista-midias {
+            list-style-type: none;
+            padding-left: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+
+        .informacao-foto, .informacao-texto {
+            flex: 1 1 50%;
+        
+        }
+
+       
+        .informacao-texto {
+            background-color: #f5f9ff;
+            padding: 10px;
+            border-radius: 5px;
+            color: #606060;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: right;
+            
+        }
+
+        .lista-historico li, .lista-campeonatos li {
+            background-color: #f5f9ff73;
+            color:#606060;
+            padding: 10px;
+            width: calc(50% - 15px); 
+            border-radius: 5px;
+            flex: 1 1 calc(50% - 10px); 
+            box-sizing: border-box;
+        }
+            
+        .lista-midias li {
+            background-color: #f5f9ff73;
+            color: #3a86ff;
+            padding: 10px;
+            width: calc(50% - 15px); 
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+         .redes-sociais-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .redes-sociais-container a svg {
+            height: 32px;
+        }
+
+        .redes-sociais-container a {
+            background-color: white;
+            padding: 1em;
+            border-radius: 50%;
+        }
+
+        .redes-sociais-container a::before {
+            content:attr(info-redes);
+            position: absolute;
+            background-color: var(--cor-fundo);
+            color:white;
+            text-decoration: none;
+            padding: 0.5em 1em;
+            border-radius: 100px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+            transform: translateY(-30px) rotate(25deg);
+            opacity: 0;
+            transition: 200ms ease;
+        }
+
+        .redes-sociais-container a:hover {
+            background-color: var(--cor-fundo);
+            fill: white;
+        }
+
+        .redes-sociais-container a::after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 10px solid var(--cor-fundo);
+            transform: translateY(0) rotate(25deg);
+            opacity: 0;
+            transition: 200ms ease;
+        
+        }
+
+        .redes-sociais-container a:hover::before {
+            transform: translateY(-65px) rotate(0);
+            opacity: 1;
+        }
+
+        .redes-sociais-container a:hover::after {
+            transform: translateY(-42px) rotate(0);
+            opacity: 1;
+        }
+        footer {
+            background-color: #333;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 0;
+        }
