@@ -89,6 +89,121 @@ function updateUIForGuestUser() {
   document.getElementById("loginMenuItem").classList.remove("hidden")
 }
 
+// Custom Toast Notification System
+class ToastManager {
+  constructor() {
+    this.container = this.createContainer()
+    this.toasts = new Map()
+    this.toastId = 0
+  }
+
+  createContainer() {
+    let container = document.getElementById("toast-container")
+    if (!container) {
+      container = document.createElement("div")
+      container.id = "toast-container"
+      container.className = "toast-container"
+      document.body.appendChild(container)
+    }
+    return container
+  }
+
+  show(message, type = "info", duration = 5000) {
+    const id = ++this.toastId
+    const toast = this.createToast(message, type, id)
+
+    this.container.appendChild(toast)
+    this.toasts.set(id, toast)
+
+    // Trigger animation
+    requestAnimationFrame(() => {
+      toast.classList.add("show")
+    })
+
+    // Auto remove
+    if (duration > 0) {
+      const progressBar = toast.querySelector(".toast-progress")
+      if (progressBar) {
+        progressBar.style.width = "100%"
+        progressBar.style.transitionDuration = `${duration}ms`
+
+        setTimeout(() => {
+          progressBar.style.width = "0%"
+        }, 50)
+      }
+
+      setTimeout(() => {
+        this.remove(id)
+      }, duration)
+    }
+
+    return id
+  }
+
+  createToast(message, type, id) {
+    const toast = document.createElement("div")
+    toast.className = `toast ${type}`
+    toast.dataset.toastId = id
+
+    const icons = {
+      success: "fas fa-check",
+      error: "fas fa-times",
+      warning: "fas fa-exclamation-triangle",
+      info: "fas fa-info-circle",
+    }
+
+    const titles = {
+      success: "Sucesso",
+      error: "Erro",
+      warning: "Atenção",
+      info: "Informação",
+    }
+
+    toast.innerHTML = `
+      <div class="toast-icon">
+        <i class="${icons[type] || icons.info}"></i>
+      </div>
+      <div class="toast-content">
+        <div class="toast-title">${titles[type] || titles.info}</div>
+        <div class="toast-message">${message}</div>
+      </div>
+      <button class="toast-close" onclick="toastManager.remove(${id})">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="toast-progress"></div>
+    `
+
+    return toast
+  }
+
+  remove(id) {
+    const toast = this.toasts.get(id)
+    if (toast) {
+      toast.classList.add("hide")
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.parentNode.removeChild(toast)
+        }
+        this.toasts.delete(id)
+      }, 400)
+    }
+  }
+
+  clear() {
+    this.toasts.forEach((toast, id) => {
+      this.remove(id)
+    })
+  }
+}
+
+// Initialize toast manager
+const toastManager = new ToastManager()
+
+// Replace the old showNotification function
+function showNotification(message, type = "info") {
+  toastManager.show(message, type)
+}
+
 // Navigation system
 function navigateToPage(page) {
   showLoading()
@@ -214,12 +329,6 @@ function hideLoading() {
   if (loadingOverlay) {
     loadingOverlay.classList.remove("active")
   }
-}
-
-// Simple notification system
-function showNotification(message, type = "info") {
-  const alertClass = type === "success" ? "✅" : type === "error" ? "❌" : "ℹ️"
-  alert(`${alertClass} ${message}`)
 }
 
 // Logout functionality
@@ -489,8 +598,8 @@ document.addEventListener("DOMContentLoaded", () => {
     loginMenuItem.addEventListener("click", (e) => {
       e.preventDefault()
       profileDropdown?.classList.remove("active")
-      // Redireciona para página de cadastro quando deslogado
-      window.location.href = "cadastro.html"
+      // Abre modal de autenticação quando deslogado
+      openProfileAuthModal()
     })
   }
 
@@ -731,7 +840,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (firstConversation) {
     loadConversationMessages(firstConversation.querySelector(".conversation-name").textContent)
   }
-  loadConversationMessages(firstConversation.querySelector(".conversation-name").textContent)
 
   // Update message badge on load
   updateMessageBadge()
@@ -745,4 +853,5 @@ window.FutFemSocial = {
   checkUserSession,
   isLoggedIn: () => isLoggedIn,
   getCurrentUser: () => currentUser,
+  toastManager,
 }

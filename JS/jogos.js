@@ -98,10 +98,119 @@ document.addEventListener("DOMContentLoaded", () => {
     // Check user session on page load
     checkUserSession()
   
-    // Simple notification system
+    // Custom Toast Notification System
+    class ToastManager {
+      constructor() {
+        this.container = this.createContainer()
+        this.toasts = new Map()
+        this.toastId = 0
+      }
+  
+      createContainer() {
+        let container = document.getElementById("toast-container")
+        if (!container) {
+          container = document.createElement("div")
+          container.id = "toast-container"
+          container.className = "toast-container"
+          document.body.appendChild(container)
+        }
+        return container
+      }
+  
+      show(message, type = "info", duration = 5000) {
+        const id = ++this.toastId
+        const toast = this.createToast(message, type, id)
+  
+        this.container.appendChild(toast)
+        this.toasts.set(id, toast)
+  
+        // Trigger animation
+        requestAnimationFrame(() => {
+          toast.classList.add("show")
+        })
+  
+        // Auto remove
+        if (duration > 0) {
+          const progressBar = toast.querySelector(".toast-progress")
+          if (progressBar) {
+            progressBar.style.width = "100%"
+            progressBar.style.transitionDuration = `${duration}ms`
+  
+            setTimeout(() => {
+              progressBar.style.width = "0%"
+            }, 50)
+          }
+  
+          setTimeout(() => {
+            this.remove(id)
+          }, duration)
+        }
+  
+        return id
+      }
+  
+      createToast(message, type, id) {
+        const toast = document.createElement("div")
+        toast.className = `toast ${type}`
+        toast.dataset.toastId = id
+  
+        const icons = {
+          success: "fas fa-check",
+          error: "fas fa-times",
+          warning: "fas fa-exclamation-triangle",
+          info: "fas fa-info-circle",
+        }
+  
+        const titles = {
+          success: "Sucesso",
+          error: "Erro",
+          warning: "Atenção",
+          info: "Informação",
+        }
+  
+        toast.innerHTML = `
+            <div class="toast-icon">
+              <i class="${icons[type] || icons.info}"></i>
+            </div>
+            <div class="toast-content">
+              <div class="toast-title">${titles[type] || titles.info}</div>
+              <div class="toast-message">${message}</div>
+            </div>
+            <button class="toast-close" onclick="toastManager.remove(${id})">
+              <i class="fas fa-times"></i>
+            </button>
+            <div class="toast-progress"></div>
+          `
+  
+        return toast
+      }
+  
+      remove(id) {
+        const toast = this.toasts.get(id)
+        if (toast) {
+          toast.classList.add("hide")
+          setTimeout(() => {
+            if (toast.parentNode) {
+              toast.parentNode.removeChild(toast)
+            }
+            this.toasts.delete(id)
+          }, 400)
+        }
+      }
+  
+      clear() {
+        this.toasts.forEach((toast, id) => {
+          this.remove(id)
+        })
+      }
+    }
+  
+    // Initialize toast manager
+    const toastManager = new ToastManager()
+  
+    // Replace the old showNotification function
     function showNotification(message, type = "info") {
-      const alertClass = type === "success" ? "✅" : type === "error" ? "❌" : "ℹ️"
-      alert(`${alertClass} ${message}`)
+      toastManager.show(message, type)
     }
   
     // Navigation system
@@ -339,26 +448,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const createGameModal = document.getElementById("createGameModal")
     const closeCreateGameModal = document.getElementById("closeCreateGameModal")
     const cancelCreateGame = document.getElementById("cancelCreateGame")
-
+  
     console.log("Inicializando botão Criar Jogo...") // Debug
-
+  
     if (createGameBtn) {
       console.log("Botão Criar Jogo encontrado") // Debug
-
+  
       createGameBtn.addEventListener("click", (e) => {
         e.preventDefault()
         e.stopPropagation()
-
+  
         console.log("Botão Criar Jogo clicado!") // Debug
         console.log("Status de login:", isLoggedIn) // Debug
-
+  
         if (!isLoggedIn) {
           console.log("Usuário não logado, abrindo modal de login") // Debug
           showNotification("Você precisa estar logado para criar um jogo!", "error")
           openProfileAuthModal()
           return
         }
-
+  
         console.log("Usuário logado, abrindo modal de criar jogo") // Debug
         if (createGameModal) {
           createGameModal.classList.add("active")
@@ -370,7 +479,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       console.log("Botão Criar Jogo NÃO encontrado!") // Debug
     }
-
+  
     if (closeCreateGameModal) {
       closeCreateGameModal.addEventListener("click", (e) => {
         e.preventDefault()
@@ -379,7 +488,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       })
     }
-
+  
     if (cancelCreateGame) {
       cancelCreateGame.addEventListener("click", (e) => {
         e.preventDefault()
@@ -428,13 +537,13 @@ document.addEventListener("DOMContentLoaded", () => {
   
     // Form submissions - APENAS LOGIN (SEM CADASTRO)
     const loginForm = document.getElementById("loginForm")
-
+  
     if (loginForm) {
       loginForm.addEventListener("submit", (e) => {
         e.preventDefault()
-
+  
         console.log("Formulário de login enviado") // Debug
-
+  
         // Simular dados do usuário após login
         const userData = {
           name: "Maria Silva",
@@ -444,16 +553,16 @@ document.addEventListener("DOMContentLoaded", () => {
           followers: 89,
           avatar: "/placeholder.svg?height=40&width=40",
         }
-
+  
         isLoggedIn = true
         currentUser = userData
         localStorage.setItem("currentUser", JSON.stringify(userData))
         localStorage.setItem("isLoggedIn", "true")
-
+  
         updateUIForLoggedInUser()
         closeProfileAuthModal()
         showNotification("Login realizado com sucesso! Bem-vinda!", "success")
-
+  
         console.log("Login realizado, usuário:", currentUser) // Debug
       })
     } else {
@@ -552,19 +661,19 @@ document.addEventListener("DOMContentLoaded", () => {
             document.querySelector(".conversation-item.active .conversation-avatar")?.src ||
             "/placeholder.svg?height=24&width=24"
           messageDiv.innerHTML = `
-              <img src="${avatar}" alt="${contactName}" class="message-avatar">
-              <div class="message-content">
-                <p>${msg.text}</p>
-                <span class="message-time">${msg.time}</span>
-              </div>
-            `
+                <img src="${avatar}" alt="${contactName}" class="message-avatar">
+                <div class="message-content">
+                  <p>${msg.text}</p>
+                  <span class="message-time">${msg.time}</span>
+                </div>
+              `
         } else {
           messageDiv.innerHTML = `
-              <div class="message-content">
-                <p>${msg.text}</p>
-                <span class="message-time">${msg.time}</span>
-              </div>
-            `
+                <div class="message-content">
+                  <p>${msg.text}</p>
+                  <span class="message-time">${msg.time}</span>
+                </div>
+              `
         }
   
         chatMessages.appendChild(messageDiv)
@@ -638,5 +747,8 @@ document.addEventListener("DOMContentLoaded", () => {
         showNotification("Carregando mais jogos...", "info")
       })
     }
+  
+    // Expose toast manager globally
+    window.toastManager = toastManager
   })
   

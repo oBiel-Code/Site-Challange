@@ -1130,62 +1130,62 @@
     color: white;
     border-color: #4267b2;
   }
-
-.register-link {
-  text-align: center;
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--borders);
-}
-
-.register-link p {
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-}
-
-.register-link a {
-  color: var(--color-accent);
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.register-link a:hover {
-  text-decoration: underline;
-}
-
-/* Estilos para o modal de criar jogo usando as mesmas classes do auth modal */
-.create-game-modal {
-  max-width: 600px;
-}
-
-.create-game-form .form-row {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.create-game-form .form-row .form-group {
-  flex: 1;
-}
-
-.create-game-form .form-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--borders);
-}
-
-@media (max-width: 768px) {
+  
+  .register-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--borders);
+  }
+  
+  .register-link p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+  
+  .register-link a {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .register-link a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Estilos para o modal de criar jogo usando as mesmas classes do auth modal */
+  .create-game-modal {
+    max-width: 600px;
+  }
+  
   .create-game-form .form-row {
-    flex-direction: column;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .create-game-form .form-row .form-group {
+    flex: 1;
   }
   
   .create-game-form .form-actions {
-    flex-direction: column;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--borders);
   }
-}
+  
+  @media (max-width: 768px) {
+    .create-game-form .form-row {
+      flex-direction: column;
+    }
+  
+    .create-game-form .form-actions {
+      flex-direction: column;
+    }
+  }
   
   /* Main Content */
   .main-content {
@@ -1609,61 +1609,190 @@
     font-size: 1.1rem;
   }
   
-  /* Notifications */
-  .notification-container {
+  /* Custom Notification System */
+  .toast-container {
     position: fixed;
     top: 20px;
     right: 20px;
     z-index: 10000;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
+    max-width: 400px;
+    width: 100%;
   }
   
-  .notification {
+  .toast {
     background-color: var(--bg-cards);
     border: 1px solid var(--borders);
     border-radius: 12px;
-    padding: 1rem 1.5rem;
+    padding: 1rem 1.25rem;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.75rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
     transform: translateX(100%);
-    transition: all 0.3s ease;
-    max-width: 350px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
   }
   
-  .notification.show {
+  .toast.show {
     transform: translateX(0);
   }
   
-  .notification.success {
-    border-left: 4px solid #28a745;
+  .toast.hide {
+    transform: translateX(100%);
+    opacity: 0;
   }
   
-  .notification.error {
-    border-left: 4px solid #dc3545;
+  .toast::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: var(--color-accent);
   }
   
-  .notification.info {
-    border-left: 4px solid var(--color-accent);
+  .toast.success::before {
+    background-color: #10b981;
   }
   
-  .notification i {
-    font-size: 1.2rem;
+  .toast.error::before {
+    background-color: #ef4444;
   }
   
-  .notification.success i {
-    color: #28a745;
+  .toast.warning::before {
+    background-color: #f59e0b;
   }
   
-  .notification.error i {
-    color: #dc3545;
+  .toast.info::before {
+    background-color: var(--color-accent);
   }
   
-  .notification.info i {
+  .toast-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 0.875rem;
+    margin-top: 0.125rem;
+  }
+  
+  .toast.success .toast-icon {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+  }
+  
+  .toast.error .toast-icon {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+  }
+  
+  .toast.warning .toast-icon {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+  }
+  
+  .toast.info .toast-icon {
+    background-color: rgba(58, 134, 255, 0.1);
     color: var(--color-accent);
+  }
+  
+  .toast-content {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .toast-title {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+    line-height: 1.25;
+  }
+  
+  .toast-message {
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    word-wrap: break-word;
+  }
+  
+  .toast-close {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
+    margin-top: -0.125rem;
+  }
+  
+  .toast-close:hover {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+  }
+  
+  .toast-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background-color: var(--color-accent);
+    transition: width linear;
+  }
+  
+  .toast.success .toast-progress {
+    background-color: #10b981;
+  }
+  
+  .toast.error .toast-progress {
+    background-color: #ef4444;
+  }
+  
+  .toast.warning .toast-progress {
+    background-color: #f59e0b;
+  }
+  
+  .toast.info .toast-progress {
+    background-color: var(--color-accent);
+  }
+  
+  /* Dark theme adjustments for toasts */
+  [data-theme="dark"] .toast {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Responsive Design for Toasts */
+  @media (max-width: 480px) {
+    .toast-container {
+      top: 10px;
+      right: 10px;
+      left: 10px;
+      max-width: none;
+    }
+  
+    .toast {
+      padding: 0.875rem 1rem;
+    }
+  
+    .toast-title {
+      font-size: 0.8125rem;
+    }
+  
+    .toast-message {
+      font-size: 0.75rem;
+    }
   }
   
   /* Responsive Design */
@@ -1746,10 +1875,6 @@
       flex-direction: column;
       gap: 1rem;
       align-items: stretch;
-    }
-  
-    .notification {
-      max-width: calc(100vw - 40px);
     }
   
     .messages-container {
