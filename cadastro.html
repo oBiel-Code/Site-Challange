@@ -3,9 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title> Página de Cadastro - Novos Usuários </title>
+    <link rel="stylesheet" href="CSS/cadastro.css">
 </head>
 <body>
-    
+    <section id="cadastro" class="dados">
+        <div class="cadastro-container">
+            <h2 align="center">Criar uma conta</h2>
+            <p align="center">Preencha os campos abaixo para se cadastrar:</p>
+            <br>
+            <form align="center" action="#" method="post">
+                Nome Completo: <br><input type="text" name="nome" required>
+                <br><br>
+                E-mail: <br><input type="email" name="email" required>
+                <br><br>
+                Data de Nascimento: <br><input type="date" name="data-nascimento" required>
+                <br><br>
+                CPF: <br><input type="text" name="cpf" required pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" placeholder="000.000.000-00">
+                <br><br>
+                Telefone: <br><input type="tel" name="telefone" required>
+                <br><br>
+                Nome de Usuário: <br><input type="text" name="usuario" required>
+                <br><br>
+                Senha: <br><input type="password" name="senha" required>
+                <br><br>
+                Confirmar Senha: <br><input type="password" name="confirmar-senha" required>
+                <br><br>
+                <a href="jogos.html" role="button">Realizar Cadastro</a><br><br>
+                <button type="reset">Limpar</button>
+                <br><br>
+                <p align="center">Já possui uma conta? <a href="login.html">Faça login aqui</a>.</p>
+                
+            </form>
+        </div>
+    </section>
 </body>
 </html>

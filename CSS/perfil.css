@@ -1,3 +1,42 @@
+        body {
+            background: #fff;
+            color: #222;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background: #181818;
+            color: #f1f1f1;
+            transition: background 0.3s, color 0.3s;
+        }
+         
+         body.dark-mode .cabecalho-container {
+            background: #333;
+            color: #f1f1f1;
+        }
+         
+         body.dark-mode .navegacao a {
+            color: #f1f1f1;
+        }
+         
+         body.dark-mode .informacao-container,
+         body.dark-mode .historico-container,
+         body.dark-mode .campeonatos-container,
+         body.dark-mode .midias-container {
+            background: #222;
+            color: #f1f1f1;
+        }
+
+body.dark-mode .cabecalho,
+body.dark-mode .rodape {
+    background: #222;
+    color: #f1f1f1;
+}
+         
+         
+         
+         
+         
          body {
             font-family: Arial, sans-serif;
             margin: 0;
