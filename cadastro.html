@@ -1,41 +1,583 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Página de Cadastro - Novos Usuários </title>
-    <link rel="stylesheet" href="CSS/cadastro.css">
+    <title>Cadastro - Novos Usuários | Passa Bola</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @keyframes slideInFromTop {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .animate-slide-in-top {
+            animation: slideInFromTop 0.8s ease-out forwards;
+        }
+        
+        .animate-fade-in-scale {
+            animation: fadeInScale 0.6s ease-out forwards;
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .form-field {
+            transition: all 0.3s ease;
+        }
+        
+        .form-field:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(58, 134, 255, 0.15);
+        }
+        
+        .form-field:focus + label,
+        .form-field:not(:placeholder-shown) + label {
+            transform: translateY(-25px) scale(0.8);
+            color: #3a86ff;
+        }
+        
+        .floating-label {
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+        
+        /* Custom gradient background */
+        .gradient-bg {
+            background: linear-gradient(135deg, #aed5ec 0%, #f5f9ff 50%, #e0f2fe 100%);
+            min-height: 100vh;
+        }
+        
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            background: rgba(58, 134, 255, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .particle:nth-child(1) { width: 20px; height: 20px; top: 20%; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 15px; height: 15px; top: 60%; left: 80%; animation-delay: 2s; }
+        .particle:nth-child(3) { width: 25px; height: 25px; top: 80%; left: 20%; animation-delay: 4s; }
+        .particle:nth-child(4) { width: 18px; height: 18px; top: 30%; left: 70%; animation-delay: 1s; }
+        .particle:nth-child(5) { width: 22px; height: 22px; top: 70%; left: 60%; animation-delay: 3s; }
+        
+        /* Dark mode styles */
+        .dark {
+            background: #0f1419 !important;
+            color: #f1f1f1 !important;
+        }
+        
+        .dark .gradient-bg {
+            background: linear-gradient(135deg, #1a2e1a 0%, #0f1419 50%, #1f2937 100%) !important;
+        }
+        
+        .dark .bg-white\/90 {
+            background-color: rgba(31, 41, 55, 0.9) !important;
+        }
+        
+        .dark .bg-white\/80 {
+            background-color: rgba(31, 41, 55, 0.8) !important;
+        }
+        
+        .dark .text-gray-800 {
+            color: #f1f1f1 !important;
+        }
+        
+        .dark .text-gray-600 {
+            color: #d1d5db !important;
+        }
+        
+        .dark .text-gray-500 {
+            color: #9ca3af !important;
+        }
+        
+        .dark .border-gray-300 {
+            border-color: #4b5563 !important;
+        }
+        
+        .dark .bg-blue-100 {
+            background-color: #1e3a2e !important;
+        }
+        
+        .dark .bg-gray-200 {
+            background-color: #374151 !important;
+        }
+    </style>
 </head>
-<body>
-    <section id="cadastro" class="dados">
-        <div class="cadastro-container">
-            <h2 align="center">Criar uma conta</h2>
-            <p align="center">Preencha os campos abaixo para se cadastrar:</p>
-            <br>
-            <form align="center" action="#" method="post">
-                Nome Completo: <br><input type="text" name="nome" required>
-                <br><br>
-                E-mail: <br><input type="email" name="email" required>
-                <br><br>
-                Data de Nascimento: <br><input type="date" name="data-nascimento" required>
-                <br><br>
-                CPF: <br><input type="text" name="cpf" required pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" placeholder="000.000.000-00">
-                <br><br>
-                Telefone: <br><input type="tel" name="telefone" required>
-                <br><br>
-                Nome de Usuário: <br><input type="text" name="usuario" required>
-                <br><br>
-                Senha: <br><input type="password" name="senha" required>
-                <br><br>
-                Confirmar Senha: <br><input type="password" name="confirmar-senha" required>
-                <br><br>
-                <a href="jogos.html" role="button">Realizar Cadastro</a><br><br>
-                <button type="reset">Limpar</button>
-                <br><br>
-                <p align="center">Já possui uma conta? <a href="login.html">Faça login aqui</a>.</p>
-                
-            </form>
+<body class="gradient-bg relative overflow-x-hidden" data-theme="light">
+    <!-- Floating particles -->
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+
+    <!-- Header -->
+    <header class="backdrop-blur-sm shadow-lg sticky top-0 z-50" style="background: var(--bg-cards); border-bottom: 1px solid var(--borders);">
+        <div class="max-w-6xl mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300" style="color: var(--color-accent); background: var(--bg-secondary);">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        <span class="font-medium">Voltar</span>
+                    </a>
+                    <h1 class="text-2xl md:text-3xl font-bold animate-slide-in-top" style="color: var(--color-accent);">
+                        ⚽ Passa Bola - Cadastro
+                    </h1>
+                </div>
+                <button id="themeToggle" class="px-4 py-2 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg" style="background: var(--gradient-primary); color: white;">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
         </div>
-    </section>
+    </header>
+
+    <!-- Main Content -->
+    <main class="py-12 px-4">
+        <div class="max-w-2xl mx-auto">
+            <!-- Welcome Section -->
+            <div class="text-center mb-12 animate-slide-in-top">
+                <div class="inline-block p-4 bg-blue-100 rounded-full mb-6 animate-float">
+                    <svg class="w-12 h-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                    </svg>
+                </div>
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Criar uma conta</h2>
+                <p class="text-xl text-gray-600 mb-8">Junte-se à nossa comunidade esportiva!</p>
+                
+                <!-- Progress Bar -->
+                <div class="w-full bg-gray-200 rounded-full h-2 mb-8">
+                    <div class="progress-bar bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full" style="width: 0%" id="progressBar"></div>
+                </div>
+            </div>
+
+            <!-- Registration Form -->
+            <div class="backdrop-blur-sm rounded-2xl shadow-2xl p-8 animate-fade-in-scale" style="background: var(--bg-base); border: 1px solid var(--borders);">
+                <form id="registrationForm" class="space-y-6">
+                    <!-- Name Field -->
+                    <div class="relative">
+                        <input type="text" 
+                               id="nome" 
+                               name="nome" 
+                               placeholder=" " 
+                               required 
+                               class="form-field w-full px-4 py-3 border-2 rounded-lg focus:outline-none peer transition-all duration-300"
+                               style="border-color: var(--borders); background: var(--bg-base); color: var(--text-primary);">
+                        <label for="nome" class="floating-label absolute left-4 top-3 px-2 transition-all duration-300" style="color: var(--text-muted); background: var(--bg-base);">
+                            Nome Completo *
+                        </label>
+                        <div class="mt-1 text-sm text-red-600 hidden" id="nome-error">Por favor, insira seu nome completo</div>
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="relative">
+                        <input type="email" 
+                               id="email" 
+                               name="email" 
+                               placeholder=" " 
+                               required 
+                               class="form-field w-full px-4 py-3 border-2 rounded-lg focus:outline-none peer transition-all duration-300"
+                               style="border-color: var(--borders); background: var(--bg-base); color: var(--text-primary);">
+                        <label for="email" class="floating-label absolute left-4 top-3 px-2 transition-all duration-300" style="color: var(--text-muted); background: var(--bg-base);">
+                            E-mail *
+                        </label>
+                        <div class="mt-1 text-sm text-red-600 hidden" id="email-error">Por favor, insira um e-mail válido</div>
+                    </div>
+
+                    <!-- Birth Date Field -->
+                    <div class="relative">
+                        <input type="date" 
+                               id="data-nascimento" 
+                               name="data-nascimento" 
+                               required 
+                               class="form-field w-full px-4 py-3 border-2 rounded-lg focus:outline-none" 
+                               style="border-color: var(--borders); background: var(--bg-base); color: var(--text-primary);">
+                        <label for="data-nascimento" class="text-sm text-gray-600 mb-1 block">
+                            Data de Nascimento *
+                        </label>
+                        <div class="mt-1 text-sm text-red-600 hidden" id="data-error">Por favor, insira sua data de nascimento</div>
+                    </div>
+
+                    <!-- CPF Field -->
+                    <div class="relative">
+                        <input type="text" 
+                               id="cpf" 
+                               name="cpf" 
+                               placeholder=" " 
+                               required 
+                               pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" 
+                               maxlength="14"
+                               class="form-field w-full px-4 py-3 border-2 rounded-lg focus:outline-none peer transition-all duration-300"
+                               style="border-color: var(--borders); background: var(--bg-base); color: var(--text-primary);">
+                        <label for="cpf" class="floating-label absolute left-4 top-3 px-2 transition-all duration-300" style="color: var(--text-muted); background: var(--bg-base);">
+                            CPF *
+                        </label>
+                        <div class="mt-1 text-sm text-gray-500">Formato: 000.000.000-00</div>
+                        <div class="mt-1 text-sm text-red-600 hidden" id="cpf-error">Por favor, insira um CPF válido</div>
+                    </div>
+
+                    <!-- Phone Field -->
+                    <div class="relative">
+                        <input type="tel" 
+                               id="telefone" 
+                               name="telefone" 
+                               placeholder=" " 
+                               required 
+                               class="form-field w-full px-4 py-3 border-2 rounded-lg focus:outline-none peer transition-all duration-300"
+                               style="border-color: var(--borders); background: var(--bg-base); color: var(--text-primary);">
+                        <label for="telefone" class="floating-label absolute left-4 top-3 px-2 transition-all duration-300" style="color: var(--text-muted); background: var(--bg-base);">
+                            Telefone *
+                        </label>
+                        <div class="mt-1 text-sm text-red-600 hidden" id="telefone-error">Por favor, insira seu telefone</div>
+                    </div>
+
+                    <!-- Username Field -->
+                    <div class="relative">
+                        <input type="text" 
+                               id="usuario" 
+                               name="usuario" 
+                               placeholder=" " 
+                               required 
+                               class="form-field w-full px-4 py-3 border-2 rounded-lg focus:outline-none peer transition-all duration-300"
+                               style="border-color: var(--borders); background: var(--bg-base); color: var(--text-primary);">
+                        <label for="usuario" class="floating-label absolute left-4 top-3 px-2 transition-all duration-300" style="color: var(--text-muted); background: var(--bg-base);">
+                            Nome de Usuário *
+                        </label>
+                        <div class="mt-1 text-sm text-red-600 hidden" id="usuario-error">Por favor, escolha um nome de usuário</div>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="relative">
+                        <input type="password" 
+                               id="senha" 
+                               name="senha" 
+                               placeholder=" " 
+                               required 
+                               minlength="6"
+                               class="form-field w-full px-4 py-3 border-2 rounded-lg focus:outline-none peer transition-all duration-300"
+                               style="border-color: var(--borders); background: var(--bg-base); color: var(--text-primary);">
+                        <label for="senha" class="floating-label absolute left-4 top-3 px-2 transition-all duration-300" style="color: var(--text-muted); background: var(--bg-base);">
+                            Senha *
+                        </label>
+                        <button type="button" id="togglePassword" class="absolute right-3 top-3 text-gray-500 hover:text-gray-700">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="mt-1 text-sm text-gray-500">Mínimo 6 caracteres</div>
+                        <div class="mt-1 text-sm text-red-600 hidden" id="senha-error">A senha deve ter pelo menos 6 caracteres</div>
+                    </div>
+
+                    <!-- Confirm Password Field -->
+                    <div class="relative">
+                        <input type="password" 
+                               id="confirmar-senha" 
+                               name="confirmar-senha" 
+                               placeholder=" " 
+                               required 
+                               class="form-field w-full px-4 py-3 border-2 rounded-lg focus:outline-none peer transition-all duration-300"
+                               style="border-color: var(--borders); background: var(--bg-base); color: var(--text-primary);">
+                        <label for="confirmar-senha" class="floating-label absolute left-4 top-3 px-2 transition-all duration-300" style="color: var(--text-muted); background: var(--bg-base);">
+                            Confirmar Senha *
+                        </label>
+                        <div class="mt-1 text-sm text-red-600 hidden" id="confirmar-senha-error">As senhas não coincidem</div>
+                    </div>
+
+                    <!-- Terms Checkbox -->
+                    <div class="flex items-start space-x-3">
+                        <input type="checkbox" 
+                               id="termos" 
+                               name="termos" 
+                               required 
+                               class="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 transition-all duration-300"
+                               style="border-color: var(--borders); background: var(--bg-base); color: var(--text-primary);">
+                        <label for="termos" class="text-sm text-gray-600 transition-all duration-300" style="color: var(--text-primary);">
+                            Eu concordo com os <a href="#" class="text-blue-600 hover:underline">Termos de Uso</a> e 
+                            <a href="#" class="text-blue-600 hover:underline">Política de Privacidade</a> *
+                        </label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="space-y-4">
+                        <button type="submit" 
+                                class="w-full py-4 px-6 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                                style="background: var(--gradient-primary); color: white;">
+                            <span class="flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                                </svg>
+                                Realizar Cadastro
+                            </span>
+                        </button>
+                        
+                        <button type="reset" 
+                                class="w-full py-3 px-6 rounded-lg font-semibold transition-colors duration-300"
+                                style="background: var(--bg-secondary); color: var(--text-primary);">
+                            🔄 Limpar Formulário
+                        </button>
+                    </div>
+
+                    <!-- Login Link -->
+                    <div class="text-center pt-6 border-t border-gray-200 transition-all duration-300" style="border-color: var(--borders); color: var(--text-primary);">
+                        <p class="text-sm">
+                            Já possui uma conta? 
+                            <a href="#" class="text-blue-600 hover:text-blue-800 font-semibold hover:underline transition-colors duration-300">
+                                Faça login aqui
+                            </a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Success Message (Hidden by default) -->
+            <div id="successMessage" class="hidden bg-green-100 border border-green-400 text-green-700 px-6 py-4 rounded-lg mt-6 animate-fade-in-scale">
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <div>
+                        <h3 class="font-semibold">Cadastro realizado com sucesso!</h3>
+                        <p class="text-sm">Bem-vindo(a) à comunidade Passa Bola! 🎉</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-16 transition-all duration-300" style="background: var(--bg-footer); color: var(--text-footer);">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <p class="text-lg">&copy; 2025 Passa Bola. Todos os direitos reservados.</p>
+            <p class="text-gray-400 mt-2">Desenvolvido com ⚽ para atletas brasileiros</p>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById("themeToggle")
+        const body = document.body
+
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem("theme") || "light"
+        if (currentTheme === "dark") {
+            body.setAttribute("data-theme", "dark")
+            body.classList.add("dark")
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>'
+        }
+
+        themeToggle.addEventListener("click", () => {
+            const isDark = body.getAttribute("data-theme") === "dark"
+
+            if (isDark) {
+                body.removeAttribute("data-theme")
+                body.classList.remove("dark")
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>'
+                localStorage.setItem("theme", "light")
+            } else {
+                body.setAttribute("data-theme", "dark")
+                body.classList.add("dark")
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>'
+                localStorage.setItem("theme", "dark")
+            }
+        })
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registrationForm');
+            const progressBar = document.getElementById('progressBar');
+            const fields = form.querySelectorAll('input[required]');
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordField = document.getElementById('senha');
+            const cpfField = document.getElementById('cpf');
+            const phoneField = document.getElementById('telefone');
+
+            // Update progress bar
+            function updateProgress() {
+                const filledFields = Array.from(fields).filter(field => field.value.trim() !== '').length;
+                const progress = (filledFields / fields.length) * 100;
+                progressBar.style.width = progress + '%';
+            }
+
+            // Add event listeners to all fields
+            fields.forEach(field => {
+                field.addEventListener('input', updateProgress);
+                field.addEventListener('blur', validateField);
+            });
+
+            // Toggle password visibility
+            togglePassword.addEventListener('click', function() {
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+                
+                // Toggle icon
+                const icon = this.querySelector('svg');
+                if (type === 'text') {
+                    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>';
+                } else {
+                    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>';
+                }
+            });
+
+            // CPF formatting
+            cpfField.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                e.target.value = value;
+            });
+
+            // Phone formatting
+            phoneField.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length <= 11) {
+                    value = value.replace(/(\d{2})(\d)/, '($1) $2');
+                    value = value.replace(/(\d{4,5})(\d{4})$/, '$1-$2');
+                }
+                e.target.value = value;
+            });
+
+            // Field validation
+            function validateField(e) {
+                const field = e.target;
+                const errorElement = document.getElementById(field.name + '-error');
+                let isValid = true;
+
+                // Remove previous error styling
+                field.classList.remove('border-red-500');
+                if (errorElement) errorElement.classList.add('hidden');
+
+                // Validate based on field type
+                switch (field.name) {
+                    case 'nome':
+                        isValid = field.value.trim().length >= 2;
+                        break;
+                    case 'email':
+                        isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value);
+                        break;
+                    case 'cpf':
+                        isValid = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(field.value);
+                        break;
+                    case 'senha':
+                        isValid = field.value.length >= 6;
+                        break;
+                    case 'confirmar-senha':
+                        isValid = field.value === passwordField.value;
+                        break;
+                    default:
+                        isValid = field.value.trim() !== '';
+                }
+
+                if (!isValid) {
+                    field.classList.add('border-red-500');
+                    if (errorElement) errorElement.classList.remove('hidden');
+                }
+
+                return isValid;
+            }
+
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                let isFormValid = true;
+                fields.forEach(field => {
+                    const event = { target: field };
+                    if (!validateField(event)) {
+                        isFormValid = false;
+                    }
+                });
+
+                // Check terms checkbox
+                const termsCheckbox = document.getElementById('termos');
+                if (!termsCheckbox.checked) {
+                    isFormValid = false;
+                    termsCheckbox.focus();
+                }
+
+                if (isFormValid) {
+                    // Show loading state
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Processando...';
+                    submitBtn.disabled = true;
+
+                    // Simulate form submission
+                    setTimeout(() => {
+                        document.getElementById('successMessage').classList.remove('hidden');
+                        form.style.display = 'none';
+                        
+                        // Scroll to success message
+                        document.getElementById('successMessage').scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+                    }, 2000);
+                } else {
+                    // Scroll to first error
+                    const firstError = form.querySelector('.border-red-500');
+                    if (firstError) {
+                        firstError.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+                        firstError.focus();
+                    }
+                }
+            });
+
+            // Reset form
+            form.addEventListener('reset', function() {
+                setTimeout(() => {
+                    updateProgress();
+                    // Remove all error states
+                    fields.forEach(field => {
+                        field.classList.remove('border-red-500');
+                        const errorElement = document.getElementById(field.name + '-error');
+                        if (errorElement) errorElement.classList.add('hidden');
+                    });
+                }, 10);
+            });
+
+            // Initial progress update
+            updateProgress();
+        });
+    </script>
 </body>
 </html>

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="CSS/styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-<body>
+<body data-theme="light">
     <!-- Header -->
     <header class="header">
         <div class="header-content">
@@ -57,7 +57,7 @@
                             </div>
                             <div class="dropdown-divider"></div>
                             <!-- Meu Perfil - apenas quando logado -->
-                            <a href="#" class="dropdown-item hidden" id="profileMenuItem">
+                            <a href="perfil.html" class="dropdown-item hidden" id="profileMenuItem">
                                 <i class="fas fa-user"></i>
                                 <span>Meu Perfil</span>
                             </a>
@@ -200,10 +200,10 @@
                 <!-- Post 3 -->
                 <div class="post">
                     <div class="post-header">
-                        <img src="/placeholder.svg?height=40&width=40" alt="Formiga" class="post-avatar">
+                        <img src="/placeholder.svg?height=40&width=40" alt="Luana" class="post-avatar">
                         <div class="post-user">
-                            <h4>Formiga <span class="verified">✓</span></h4>
-                            <p>@formiga_oficial • 6h</p>
+                            <h4>Luana Passaabola <span class="verified">✓</span></h4>
+                            <p> @luanapab_oficial • 6h </p>
                         </div>
                     </div>
                     <div class="post-content">
@@ -318,8 +318,8 @@
                 <div class="suggestion-card">
                     <img src="/placeholder.svg?height=40&width=40" alt="Formiga" class="suggestion-avatar">
                     <div class="suggestion-info">
-                        <h4>Formiga</h4>
-                        <p>@formiga_oficial</p>
+                        <h4>Luana Passaabola</h4>
+                        <p>@luanapab_oficial</p>
                         <span class="verified">✓</span>
                     </div>
                     <button class="btn-secondary">Seguir</button>
@@ -513,8 +513,8 @@
                     <div class="search-item">
                         <img src="/placeholder.svg?height=32&width=32" alt="Formiga" class="search-avatar">
                         <div class="search-info">
-                            <span class="search-name">Formiga</span>
-                            <span class="search-handle">@formiga_oficial</span>
+                            <span class="search-name">Luana Passaabola</span>
+                            <span class="search-handle">@luanapab_oficial</span>
                         </div>
                         <span class="verified">✓</span>
                     </div>
@@ -645,18 +645,17 @@
             <div class="auth-tabs-container">
                 <div class="auth-tabs">
                     <button class="auth-tab active" data-tab="login">LOGIN</button>
-                    <button class="auth-tab" data-tab="register">CADASTRO</button>
                 </div>
                 
                 <div class="auth-content">
                     <form class="auth-form" id="loginForm">
                         <div class="form-group">
+                            <input class="form_input" type="text" placeholder="Digite seu email ou @usuario" required>
                             <label>Email ou nome de usuário</label>
-                            <input type="text" placeholder="Digite seu email ou @usuario" required>
                         </div>
                         <div class="form-group">
+                            <input class="form_input" type="password" placeholder="Digite sua senha" required>
                             <label>Senha</label>
-                            <input type="password" placeholder="Digite sua senha" required>
                         </div>
                         <div class="form-options">
                             <label class="checkbox-label">
@@ -667,6 +666,7 @@
                             <a href="#" class="forgot-password">Esqueceu a senha?</a>
                         </div>
                         <button type="submit" class="btn-primary">Entrar</button>
+                        <a id="cadastro-btn" href="cadastro.html" class="social-btn cadastro">Cadastro</a>
                         <div class="social-login">
                             <p>Ou entre com:</p>
                             <div class="social-buttons">
@@ -740,6 +740,105 @@
 
     <!-- Notification Container -->
     <div class="notification-container" id="notificationContainer"></div>
+
+    <!-- Enhanced desktop-style notifications popup -->
+    <div class="notifications-popup" id="notificationsPopup">
+        <div class="notifications-popup-header">
+            <h3>Notificações</h3>
+            <div class="notifications-actions">
+                <button class="mark-all-read-btn" id="markAllReadPopupBtn" title="Marcar todas como lidas">
+                    <i class="fas fa-check-double"></i>
+                </button>
+                <button class="notifications-settings-btn" title="Configurações">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="notifications-popup-content">
+            <div class="notification-item-popup unread">
+                <div class="notification-icon like">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <img src="/placeholder.svg?height=32&width=32" alt="Marta" class="notification-avatar-popup">
+                <div class="notification-content-popup">
+                    <div class="notification-text-popup">
+                        <strong>Marta Vieira</strong> curtiu seu post sobre o jogo de ontem
+                    </div>
+                    <div class="notification-time-popup">2 min</div>
+                </div>
+                <div class="notification-preview-popup">
+                    <img src="/placeholder.svg?height=24&width=24" alt="Post preview">
+                </div>
+            </div>
+
+            <div class="notification-item-popup unread">
+                <div class="notification-icon comment">
+                    <i class="fas fa-comment"></i>
+                </div>
+                <img src="/placeholder.svg?height=32&width=32" alt="Formiga" class="notification-avatar-popup">
+                <div class="notification-content-popup">
+                    <div class="notification-text-popup">
+                        <strong>Formiga</strong> comentou: "Que jogada incrível! 🔥"
+                    </div>
+                    <div class="notification-time-popup">5 min</div>
+                </div>
+                <div class="notification-preview-popup">
+                    <img src="/placeholder.svg?height=24&width=24" alt="Post preview">
+                </div>
+            </div>
+
+            <div class="notification-item-popup unread">
+                <div class="notification-icon follow">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <img src="/placeholder.svg?height=32&width=32" alt="Passaabola" class="notification-avatar-popup">
+                <div class="notification-content-popup">
+                    <div class="notification-text-popup">
+                        <strong>Passaabola</strong> começou a te seguir
+                    </div>
+                    <div class="notification-time-popup">10 min</div>
+                </div>
+                <button class="follow-back-btn-popup">Seguir</button>
+            </div>
+
+            <div class="notification-item-popup">
+                <div class="notification-icon mention">
+                    <i class="fas fa-at"></i>
+                </div>
+                <img src="/placeholder.svg?height=32&width=32" alt="Gabi" class="notification-avatar-popup">
+                <div class="notification-content-popup">
+                    <div class="notification-text-popup">
+                        <strong>Gabi Portilho</strong> mencionou você em um post
+                    </div>
+                    <div class="notification-time-popup">15 min</div>
+                </div>
+                <div class="notification-preview-popup">
+                    <img src="/placeholder.svg?height=24&width=24" alt="Post preview">
+                </div>
+            </div>
+
+            <div class="notification-item-popup">
+                <div class="notification-icon like">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <img src="/placeholder.svg?height=32&width=32" alt="Ana" class="notification-avatar-popup">
+                <div class="notification-content-popup">
+                    <div class="notification-text-popup">
+                        <strong>Ana Silva</strong> e <strong>12 outras</strong> curtiram seu post
+                    </div>
+                    <div class="notification-time-popup">20 min</div>
+                </div>
+                <div class="notification-preview-popup">
+                    <img src="/placeholder.svg?height=24&width=24" alt="Post preview">
+                </div>
+            </div>
+        </div>
+        
+        <div class="notifications-popup-footer">
+            <a href="#" class="view-all-notifications" id="viewAllNotifications">Ver todas as notificações</a>
+        </div>
+    </div>
 
     <script src="JS/script.js"></script>
 </body>

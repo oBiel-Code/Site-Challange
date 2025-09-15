@@ -539,6 +539,17 @@ function updateMessageBadge() {
 
 // Initialize page
 document.addEventListener("DOMContentLoaded", () => {
+  // Show loading screen initially
+  const loadingOverlay = document.getElementById("loadingOverlay")
+  if (loadingOverlay) {
+    loadingOverlay.classList.add("active")
+
+    // Hide loading screen after 1 second
+    setTimeout(() => {
+      loadingOverlay.classList.remove("active")
+    }, 1000)
+  }
+
   // Check user session on page load
   checkUserSession()
 
@@ -693,23 +704,49 @@ document.addEventListener("DOMContentLoaded", () => {
     loginForm.addEventListener("submit", (e) => {
       e.preventDefault()
 
-      const userData = {
-        name: "Maria Silva",
-        username: "maria_futfem",
-        posts: 23,
-        following: 156,
-        followers: 89,
-        avatar: "/placeholder.svg?height=40&width=40",
+      const submitBtn = loginForm.querySelector(".btn-primary")
+      const isValid = validateForm(loginForm)
+
+      if (!isValid) {
+        showNotification("Por favor, corrija os erros no formulário", "error")
+        return
       }
 
-      isLoggedIn = true
-      currentUser = userData
-      localStorage.setItem("currentUser", JSON.stringify(userData))
-      localStorage.setItem("isLoggedIn", "true")
+      // Add loading state
+      submitBtn.classList.add("loading")
+      submitBtn.textContent = ""
 
-      updateUIForLoggedInUser()
-      closeProfileAuthModal()
-      showNotification("Login realizado com sucesso! Bem-vinda!", "success")
+      // Simulate login process
+      setTimeout(() => {
+        const userData = {
+          name: "Maria Silva",
+          username: "maria_futfem",
+          posts: 23,
+          following: 156,
+          followers: 89,
+          avatar: "/placeholder.svg?height=40&width=40",
+        }
+
+        isLoggedIn = true
+        currentUser = userData
+        localStorage.setItem("currentUser", JSON.stringify(userData))
+        localStorage.setItem("isLoggedIn", "true")
+
+        updateUIForLoggedInUser()
+        closeProfileAuthModal()
+
+        // Remove loading state
+        submitBtn.classList.remove("loading")
+        submitBtn.textContent = "Entrar"
+
+        showNotification("Login realizado com sucesso! Bem-vinda!", "success")
+      }, 1500)
+    })
+
+    const inputs = loginForm.querySelectorAll("input")
+    inputs.forEach((input) => {
+      input.addEventListener("blur", validateInput)
+      input.addEventListener("input", clearValidationError)
     })
   }
 
@@ -843,7 +880,128 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Update message badge on load
   updateMessageBadge()
+
+  const cadastroBtn = document.getElementById("cadastro-btn")
+  if (cadastroBtn) {
+    cadastroBtn.addEventListener("click", (e) => {
+      e.preventDefault()
+
+      // Add loading animation
+      cadastroBtn.classList.add("loading")
+      cadastroBtn.textContent = "Redirecionando..."
+
+      // Show loading notification
+      showNotification("Redirecionando para cadastro...", "info")
+
+      // Smooth redirect after animation
+      setTimeout(() => {
+        window.location.href = "cadastro.html"
+      }, 800)
+    })
+  }
 })
+
+function validateInput(e) {
+  const input = e.target
+  const value = input.value.trim()
+  const type = input.type
+
+  clearValidationError(input)
+
+  if (!value) {
+    showInputError(input, "Este campo é obrigatório")
+    return false
+  }
+
+  if (type === "email" && !isValidEmail(value)) {
+    showInputError(input, "Digite um email válido")
+    return false
+  }
+
+  if (type === "password" && value.length < 6) {
+    showInputError(input, "A senha deve ter pelo menos 6 caracteres")
+    return false
+  }
+
+  showInputSuccess(input)
+  return true
+}
+
+function validateForm(form) {
+  const inputs = form.querySelectorAll("input[required]")
+  let isValid = true
+
+  inputs.forEach((input) => {
+    if (!validateInput({ target: input })) {
+      isValid = false
+    }
+  })
+
+  return isValid
+}
+
+function showInputError(input, message) {
+  input.style.borderColor = "#EF4444"
+  input.style.boxShadow = "0 0 0 4px rgba(239, 68, 68, 0.1)"
+
+  let errorMsg = input.parentNode.querySelector(".error-message")
+  if (!errorMsg) {
+    errorMsg = document.createElement("span")
+    errorMsg.className = "error-message"
+    errorMsg.style.cssText = `
+      color: #EF4444;
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      display: block;
+      animation: slideDown 0.3s ease;
+    `
+    input.parentNode.appendChild(errorMsg)
+  }
+  errorMsg.textContent = message
+}
+
+function showInputSuccess(input) {
+  input.style.borderColor = "#10B981"
+  input.style.boxShadow = "0 0 0 4px rgba(16, 185, 129, 0.1)"
+}
+
+function clearValidationError(input) {
+  if (typeof input === "object" && input.target) {
+    input = input.target
+  }
+
+  input.style.borderColor = ""
+  input.style.boxShadow = ""
+
+  const errorMsg = input.parentNode.querySelector(".error-message")
+  if (errorMsg) {
+    errorMsg.remove()
+  }
+}
+
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email)
+}
+
+const style = document.createElement("style")
+style.textContent = `
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .error-message {
+    animation: slideDown 0.3s ease;
+  }
+`
+document.head.appendChild(style)
 
 // Expose functions for external use
 window.FutFemSocial = {
